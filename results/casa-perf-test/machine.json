@@ -3,7 +3,7 @@
     "cpu": "Intel(R) Xeon(R) CPU E5-2670 0 @ 2.60GHz",
     "machine": "casa-perf-test",
     "num_cpu": "16",
-    "os": "Linux 3.10.0-1160.71.1.el7.x86_64",
-    "ram": "263925792",
+    "os": "Linux 4.18.0-477.13.1.el8_8.x86_64",
+    "ram": "263549216",
     "version": 1
 }
