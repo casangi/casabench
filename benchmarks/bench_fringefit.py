@@ -1,21 +1,10 @@
 import os
-import sys
 import shutil
-import unittest
 import itertools
-import numpy as np
 
-# For information about parameters that are unexpectedly zero, set
-# VERBOSE to true.  Currently there are none, so this is for developers
-# only
-VERBOSE = False
-from casatools import ms, ctsys, table
 from casatasks import fringefit, flagmanager, flagdata
 
 from casatestutils import testhelper as th
-ctsys_resolve = ctsys.resolve
-
-tblocal = table()
 
 # ASV iteration control (https://asv.readthedocs.io/en/stable/benchmarks.html#benchmark-attributes)
 number = 1            # i.e., always run the setup and teardown methods
