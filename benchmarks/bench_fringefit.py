@@ -15,7 +15,7 @@ timeout = 3600        # conservative 1hr hard cap for duration of a single test 
 
 datapath = ctsys.resolve('unittest/fringefit/')
 
-class Fringefit_tests():
+class Sbd():
     prefix = 'n08c1'
     msfile = prefix + '.ms'
     uvfile = 'gaincaltest2copy.ms'
@@ -34,17 +34,18 @@ class Fringefit_tests():
         shutil.rmtree('uvrange_with.cal', True)
 
     def time_sbd(self):
+        """test_sbd --- test with sbd caltable"""
         sbdcal = self.prefix + '.sbdcal'
         fringefit(vis=self.msfile, caltable=sbdcal, refant='EF')
     time_sbd.version = '14113'
 
     def time_uvrange(self):
-        ''' Check that the uvrnage parameter excludes antennas '''
+        """test_uvraange --- Check that the uvrnage parameter excludes antennas """
         # create a caltable with uvrange selection
         fringefit(vis=self.uvfile, caltable='uvrange_with.cal', spw='2', refant='0', uvrange='<1160')
     time_uvrange.version = '14113'
     
-class Fringefit_mbd():
+class Mbd():
     prefix = 'n08c1'
     msfile = prefix + '.ms'
     
@@ -62,6 +63,7 @@ class Fringefit_mbd():
         shutil.rmtree(self.prefix + '.mbdcal', True)
 
     def time_mbd(self):
+        """test_mbd --- test with mbd cal table"""
         sbdcal = self.prefix + '-zerorates.sbdcal'
         mbdcal = self.prefix + '.mbdcal'
         
@@ -70,7 +72,7 @@ class Fringefit_mbd():
     time_mbd.version = '14113'
 
 
-class Fringefit_single_tests():
+class Single():
     prefix = 'n08c1-single'
     msfile = prefix + '.ms'
 
@@ -83,11 +85,13 @@ class Fringefit_single_tests():
         shutil.rmtree(self.prefix + '-2.sbdcal', True)
 
     def time_single(self):
+        """test_single --- check that the right params are flagged with a single refant"""
         sbdcal = self.prefix + '.sbdcal'
         fringefit(vis=self.msfile, caltable=sbdcal, refant='EF')
     time_single.version = '14113'
         
     def time_param(self):
+        """test_param --- test different iterations of paramactive"""
         sbdcal = self.prefix + '-2.sbdcal'
         # We make a triple cartesian product of booleans
         # to test all possible paramactive values
@@ -98,7 +102,7 @@ class Fringefit_single_tests():
     time_param.version = '14113'
 
 
-class Fringefit_dispersive_tests():
+class Dispersive():
     prefix = 'n14p1'
     msfile = prefix+'.ms'
     
@@ -119,7 +123,7 @@ class Fringefit_dispersive_tests():
         shutil.rmtree(self.prefix + '.disp', True)
 
     def time_manual_phase_cal(self):
-       
+        """test_manual_phase_cal --- test on manually flagged data"""
         fringefit(vis=self.prefix + '.ms',
                   caltable='n14p1.disp', refant="WB",
                   scan='1', solint='60', spw='0,1,2',
@@ -131,7 +135,7 @@ class Fringefit_dispersive_tests():
     time_manual_phase_cal.version = '14113'
 
 
-class Fringefit_refant_bookkeeping_tests():
+class RefantBookkeeping():
     prefix = 'n08c1-single'
     msfile = prefix + '.ms'
     sbdcal = prefix + '-book.sbdcal'
@@ -147,6 +151,7 @@ class Fringefit_refant_bookkeeping_tests():
         shutil.rmtree(self.sbdcal, True)
 
     def time_bookkeeping(self):
+        """test_bookkeeping --- check effects of using refant WB"""
         fringefit(vis=self.msfile, caltable=self.sbdcal, refant='WB')
     time_bookkeeping.version = '14113'
 
@@ -170,6 +175,7 @@ class FreqMetaTests():
             shutil.rmtree(self.prefix + '.mbdcal', True)
 
     def time_metadata(self):
+        """test_metadata --- check output table metadata"""
         sbdcal = self.prefix + '-zerorates.sbdcal'
         mbdcal = self.prefix + '.mbdcal'
         
@@ -178,7 +184,7 @@ class FreqMetaTests():
     time_metadata.version = '14113'
 
 
-class Fringefit_corrcomb():
+class Corrcomb():
     polcombtestms = 'gaincalcopy.ms'
     testout = 'polcombout.cal'
 
@@ -191,12 +197,9 @@ class Fringefit_corrcomb():
         shutil.rmtree(self.polcombtestms)
         if os.path.exists(self.testout):
             shutil.rmtree(self.testout)
-
-    def time_comb_none(self):
-        fringefit(vis=self.polcombtestms, caltable=self.testout, refant='0', spw='2~3', corrcomb='none')
-    time_comb_none.version = '14113'
         
     def time_comb_all(self):
+        """test_comb --- last part of the corrcomb test, check that results are coombined"""
         fringefit(vis=self.polcombtestms, caltable=self.testout, refant='0', spw='2~3', corrcomb='all')
     time_comb_all.version = '14113'
     
