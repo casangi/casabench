@@ -3,6 +3,7 @@ import shutil
 import itertools
 
 from casatasks import fringefit, flagmanager, flagdata
+from casatools import ctsys
 
 from casatestutils import testhelper as th
 
