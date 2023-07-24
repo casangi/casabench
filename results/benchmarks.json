@@ -1,4 +1,19 @@
 {
+    "bench_alma.BaseMosaic.time_mosaic_cube_eph_pcwdT_restart": {
+        "code": "class BaseMosaic:\n    def time_mosaic_cube_eph_pcwdT_restart(self):\n        \"\"\"Mosaic ephemeris cube imaging with briggsbwtaper - field Venus, spw 45\"\"\"\n        ret = tclean(vis=self.msfile, imagename=self.img+\"0\", field='Venus', spw=['1'], antenna=['0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46'], scan=['7,11'], intent='OBSERVE_TARGET#ON_SOURCE', datacolumn='corrected', imsize=[480, 420], cell=['0.14arcsec'], phasecenter='TRACKFIELD', stokes='I', specmode='cubesource', nchan=948, start='261.7643758544GHz', width='0.2441755MHz', perchanweightdensity=True, gridder='mosaic', mosweight=True, usepointing=False, pblimit=0.2, deconvolver='hogbom', restoration=False, restoringbeam='common', pbcor=False, weighting='briggs', robust=0.5, npixels=0, niter=0, threshold='0.0mJy', nsigma=0.0, usemask='auto-multithresh', sidelobethreshold=2.0, noisethreshold=4.25, lownoisethreshold=1.5, negativethreshold=15.0, minbeamfrac=0.3, growiterations=50, dogrowprune=True, minpercentchange=1.0, fastnoise=False, savemodel='none', parallel=self.parallel, verbose=True)\n        # restart the tclean call to actually perform deconvolution\n        ret = tclean(vis=self.msfile, imagename=self.img+\"0\", field='Venus', spw=['1'], antenna=['0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46'],scan=['7,11'], intent='OBSERVE_TARGET#ON_SOURCE', datacolumn='corrected', imsize=[480, 420], cell=['0.14arcsec'], phasecenter='TRACKFIELD', stokes='I', specmode='cubesource', nchan=948, start='261.7643758544GHz', width='0.2441755MHz', perchanweightdensity=True, gridder='mosaic', mosweight=True, usepointing=False, pblimit=0.2, deconvolver='hogbom', restoration=True, restoringbeam='common', pbcor=True, weighting='briggs', robust=0.5, npixels=0, niter=700000, threshold='0.0106Jy', nsigma=0.0, usemask='auto-multithresh', sidelobethreshold=2.0, noisethreshold=4.25, lownoisethreshold=1.5, negativethreshold=15.0, minbeamfrac=0.3, growiterations=50, dogrowprune=True, minpercentchange=1.0, fastnoise=False, restart=True, savemodel='none', calcres=False, calcpsf=False, parallel=self.parallel, verbose=True)\n\n    def setup(self):\n        self.prepData(\"2018.1.00879.S_tclean.ms\")",
+        "min_run_count": 1,
+        "name": "bench_alma.BaseMosaic.time_mosaic_cube_eph_pcwdT_restart",
+        "number": 1,
+        "param_names": [],
+        "params": [],
+        "rounds": 1,
+        "sample_time": 0.01,
+        "timeout": 7200,
+        "type": "time",
+        "unit": "seconds",
+        "version": "CAS-14086",
+        "warmup_time": -1
+    },
     "bench_applycal.ApplyModes.time_applycal_cal_only_mode": {
         "code": "class ApplyModes:\n    def time_applycal_cal_only_mode(self):\n        applycal(vis=self.vis, gaintable=[self.gCal], applymode='calonly')\n\n    def setup(self):\n        self.setup_basic()",
         "min_run_count": 5,
