@@ -148,7 +148,7 @@ class AutocorrASDM():
     def time_autocorr(self):
         '''test_autocorr - importasdm: auto-correlations should be written to online flags'''
 
-        importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='3', savecmds=True, outfile=outfile)
+        importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='3', savecmds=True, outfile=self.outfile)
 
     def time_flagautocorr1(self):
         '''test_flagautocorr1 - importasdm: test that auto-correlations from online flags are correctly flagged'''        
