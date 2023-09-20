@@ -9,8 +9,8 @@ from casatasks import importasdm, casalog
 # ASV iteration control (https://asv.readthedocs.io/en/stable/benchmarks.html#benchmark-attributes)
 number = 1            # i.e., always run the setup and teardown methods
 repeat = (1, 2, 30.0) # between 1 and 2 iterations per round w/ soft cutoff (start no new repeats) past 1m
-rounds = 3            # amount of instances a "repeat block" is run to collect samples
-min_run_count = 5     # enforce the min_repeat * rounds setting is met
+rounds = 1            # amount of instances a "repeat block" is run to collect samples
+min_run_count = 1     # enforce the min_repeat * rounds setting is met
 timeout = 3600        # conservative 1hr hard cap for duration of a single test execution
 
 datapath = ctsys.resolve('unittest/importasdm/')
@@ -33,14 +33,17 @@ class M51():
     def time_all_defaults(self):
         '''test_import2 --- importasdm with default arguments'''
         importasdm(self.asdm_name)
+    time_all_defaults.version = 14114
 
     def time_lazy_pc(self):
         '''test1_lazy1 --- lazy mode, with pointing_correction=True'''
         importasdm(asdm=self.asdm_name, vis=self.ms_name, lazy=True, with_pointing_correction=True)
+    time_lazy_pc.version = 14114
 
     def time_pc(self):
         '''test1_lazy1 --- standard fill (lazy=False), with pointing_correction=True'''
         importasdm(asdm=self.asdm_name, vis=self.ms_name, lazy=False, with_pointing_correction=True)
+    time_pc.version = 14114
 
 class Evla():
     # EVLA sdm
@@ -63,30 +66,35 @@ class Evla():
         '''test_evlatest1 - test of importing evla data, with_pointint_correction=True is normal for EVLA data'''
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='2',ocorr_mode='co',with_pointing_correction=True)
+    time_evlatest1.version = 14114
 
     def time_evla_apply2(self):
         '''test_evla_apply2 - test of importing evla data and applying the online flags'''
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='2',ocorr_mode='co', with_pointing_correction=True,
                    process_flags=True, applyflags=True, savecmds=False, flagbackup=False)
+    time_evla_apply2.version = 14114
 
     def time_evla_apply3(self):
         '''test_evla_apply3 - test of importing evla data, two difference scans, do not apply online flags'''
         
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='2,13', ocorr_mode='co', with_pointing_correction=True,
                    process_flags=False,flagbackup=False)
+    time_evla_apply3.version = 14114
 
     def time_evla_apply5(self):
         '''test_evla_apply5 - test of importing evla data: all scans, do not process flags'''
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name, ocorr_mode='co', with_pointing_correction=True,
                    process_flags=False, flagbackup=False)
+    time_evla_apply5.version = 14114
 
     def time_evla_savepars(self):
         '''test_evla_savepars - test importing evla data: save the flag commands and do not apply'''
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name,scans='11~13', ocorr_mode='co', with_pointing_correction=True,
                    process_flags=True, applyflags=False, savecmds=True, flagbackup=False)
+    time_evla_savepars.version = 14114
 
 
     def time_evla_apply1_flagdata(self):
@@ -94,18 +102,21 @@ class Evla():
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='2', ocorr_mode='co', with_pointing_correction=True,
                    process_flags=True, applyflags=True, savecmds=True, outfile=self.cmdfile, flagbackup=False)
+    time_evla_apply1_flagdata.version = 14114
                 
     def time_evla_apply3_flagdata(self):
         '''test_evla_apply3_flagdata - test of importing evla data'''
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='2,13', ocorr_mode='co', with_pointing_correction=True,
                    process_flags=False,flagbackup=False)
+    time_evla_apply3_flagdata.version = 14114
 
     def time_evla_savepars_flagdata(self):
         '''test_evla_savepars_flagdata - test importing evla data: save the flag commands and do not apply; using flagdata'''
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name,scans='11~13', ocorr_mode='co', with_pointing_correction=True,
                    process_flags=True, applyflags=False, savecmds=True, outfile=self.cmdfile, flagbackup=False)
+    time_evla_savepars_flagdata.version = 14114
 
 
         
@@ -126,6 +137,7 @@ class Evla_ephemeris():
         '''test_evlatest2 - test of importing evla data, test2: Good input asdm with polynomial ephemeris'''
         
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='0:5',ocorr_mode='co',with_pointing_correction=True,polyephem_tabtimestep=0.001,convert_ephem2geo=False)
+    time_evlatest2.version = 14114
 
                 
 class AutocorrASDM():
@@ -143,22 +155,25 @@ class AutocorrASDM():
         if (os.path.exists(self.ms_name+'.flagversions')):
             shutil.rmtree(self.ms_name+'.flagversions')
         if os.path.exists(self.outfile):
-            os.remove(outfile)
+            os.remove(self.outfile)
     
     def time_autocorr(self):
         '''test_autocorr - importasdm: auto-correlations should be written to online flags'''
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='3', savecmds=True, outfile=self.outfile)
+    time_autocorr.version = 14114
 
     def time_flagautocorr1(self):
         '''test_flagautocorr1 - importasdm: test that auto-correlations from online flags are correctly flagged'''        
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='3', applyflags=True)
+    time_flagautocorr1.version = 14114
 
     def time_flagautocorr3(self):
         '''test_flagautocorr3 - importasdm: do not process flags''' 
 
         importasdm(asdm=self.asdm_name, vis=self.ms_name, scans='3', process_flags=False, flagbackup=False)
+    time_flagautocorr3.version = 14114
 
 class Aca():
     # ACA with mixed pol/channelization
@@ -175,12 +190,13 @@ class Aca():
                
     def time_aca_lazy(self):
         '''test6_lazy1 - lazy fill: Test good ACA ASDM with mixed pol/channelization input with default filler in lazy mode'''
-
         importasdm(asdm=self.asdm_name, vis=self.ms_name, lazy=True, scans='0:1~3')
+    time_aca_lazy.version = 14114
 
     def time_aca(self):
         '''test6_lazy1 - standard fill : Test good ACA ASDM with mixel pol/channelization input with default filler'''
         importasdm(asdm=self.asdm_name, vis=self.ms_name, lazy=False, scans='0:1~3')
+    time_aca.version = 14114
 
 class Alma_12m():
     # 12m example with mixed pol/channelization
@@ -197,28 +213,34 @@ class Alma_12m():
 
     def time_test7_1_lazy(self):
         '''test7_lazy1 - lazy fill: Test good 12 m ASDM with mixed pol/channelization input with default filler in lazy mode'''
-        importasdm(self.asdm_name, vis=self.ms_name, lazy=True, scans='0:1~4') 
+        importasdm(self.asdm_name, vis=self.ms_name, lazy=True, scans='0:1~4')
+    time_test7_1_lazy.version = 14114
 
     def time_test7_1(self):
         '''test7_lazy1 - standard fill: Test good 12 m ASDM with mixed pol/channelization with default filler'''
         importasdm(self.asdm_name, vis=self.ms_name, lazy=False, scans='0:1~4')
+    time_test7_1.version = 14114
 
     def time_test7_2_lazy2(self):
         '''test7_lazy2 - Test good 12 m ASDM with mixed pol/channelisation input with default filler in lazy mode with reading the BDF flags'''
         importasdm(self.asdm_name, vis=self.ms_name, lazy=True, bdfflags=True) 
-
+    time_test7_2_lazy2.version = 14114
+    
     def time_test7_4_lazy4(self):
         '''test7_lazy4 - lazy fill, Test good 12 m ASDM with mixed pol/channelisation input with default filler in lazy mode selecting only AUTO data, writing to FLOAT_DATA'''
         importasdm(self.asdm_name, vis=self.ms_name, ocorr_mode="ao", lazy=True, scans='0:1~4') 
-
+    time_test7_4_lazy4.version = 14114
+    
     def time_test7_4(self):
         '''test7_lazy4 - standard fill: Test good 12 m ASDM with mixed pol/channelisation input with default filler in lazy mode selecting only AUTO data, writing to FLOAT_DATA'''
         importasdm(self.asdm_name, vis=self.ms_name, ocorr_mode="ao", lazy=False, scans='0:1~4')
-
+    time_test7_4.version = 14114
+    
     def time_bdflags(self):
         '''test7_bdflags1 - Test good 12 m ASDM with mixed pol/channelisation input with default filler selecting "co" on output and using the BDF flags'''
         importasdm(asdm=self.asdm_name, vis=self.ms_name, ocorr_mode="co", bdfflags=True) 
-
+    time_bdflags.version = 14114
+    
 class Singledish():
     # single dish
     asdm_name = 'uid___A002_X6218fb_X264'
@@ -233,11 +255,13 @@ class Singledish():
         shutil.rmtree(self.ms_name+'.flagversions')
     
     def time_sd_lazy(self):
-        '''test7_lazy5 - lazy fill : Test TP asdm with default filler in lazy mode selecting only AUTO data, writing to FLOAT_DATA'''
-        
+        '''test7_lazy5 - lazy fill : Test TP asdm with default filler in lazy mode selecting only AUTO data, writing to FLOAT_DATA'''        
         importasdm(self.asdm_name, vis=self.ms_name, ocorr_mode="ao", bdfflags=True, applyflags=True, lazy=True)
+    time_sd_lazy.version = 14114
+
         
     def time_sd(self):
         '''test7_lazy5 - standard fill : Test TP asdm with default filler selecting only AUTO data, writing to FLOAT_DATA'''
         importasdm(self.asdm_name, vis=self.ms_name, ocorr_mode="ao", lazy=False, bdfflags=True, applyflags=True)
+    time_sd.version = 14114
 
