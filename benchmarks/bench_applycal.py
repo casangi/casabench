@@ -4,9 +4,9 @@ from casatasks import applycal
 
 # ASV iteration control (https://asv.readthedocs.io/en/stable/benchmarks.html#benchmark-attributes)
 number = 1            # i.e., always run the setup and teardown methods
-repeat = 5            # fixed at 5 iterations per round, no range or soft cutoff
+repeat = 10           # fixed at 10 iterations per round, no range or soft cutoff
 rounds = 1            # amount of instances a "repeat block" is run to collect samples
-min_run_count = 5     # enforce the min_repeat * rounds setting is met
+min_run_count = 10    # enforce the min_repeat * rounds setting is met
 timeout = 3600        # conservative 1hr hard cap should never be met for these test cases
 
 class DataSetUp():
@@ -36,105 +36,6 @@ class DataSetUp():
         shutil.copytree(os.path.join(self.datapath, 'gaincaltest2.ms.T0'), self.tCal)
         self.callibfile = os.path.join(self.datapath, self.callibfile)
 
-class StandardGainTable(DataSetUp):
-    """
-    Benchmark runtime of applycal with basic gaintables
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_basic_gaintable(self):
-        applycal(vis=self.vis, gaintable=[self.gCal, self.tCal])
-
-class SelectionTypes(DataSetUp):
-    """
-    Benchmark runtime of the selection parameters
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_select_field(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], field='1')
-
-    def time_applycal_select_spw(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], spw='1')
-
-    def time_applycal_select_intent(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], intent='*AMPLI*')
-
-    def time_applycal_select_timerange(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], timerange='04:33:23~04:38:23')
-
-    def time_applycal_select_uvrange(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], uvrange='>100klambda')
-
-    def time_applycal_select_antenna(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], antenna='0~5&')
-
-    def time_applycal_select_scan(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], scan='10')
-
-class CalLibrary(DataSetUp):
-    """
-    Benchmark runtime using a callibrary
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_callibrary(self):
-        applycal(vis=self.vis, docallib=True, callib=self.callibfile)
-
-# Requires the use of another task
-#class CalLibraryField():
-#    """  """
-
-class GainField(DataSetUp):
-    """
-    Benchmark runtime when selecting the gainfield
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_gainfield(self):
-        applycal(vis=self.vis, gaintable=[self.tCal], gainfield='1')
-
-class Interp(DataSetUp):
-    """
-    Benchmark runtime with different interpolation mode
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_interp(self):
-        applycal(vis=self.vis, gaintable=[self.tCal], interp='cubicflag')
-
-class SpwMap(DataSetUp):
-    """
-    Benchmark runtime when using spwmaps
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_spwmap(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], spwmap=[0, 0, 1, 1])
-
-class CalWeight(DataSetUp):
-    """
-    Benchmark runtime when calwt is False
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_calweight(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], calwt=[False])
-
 class Parang(DataSetUp):
     """
     Benchmark runtime when using parang
@@ -146,28 +47,6 @@ class Parang(DataSetUp):
     def time_applycal_parang(self):
         applycal(vis=self.vis, gaintable=[self.gCal], parang=True)
 
-class CalFlag(DataSetUp):
-    """
-    Benchmark runtime when in applymode calflag
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_calflag(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], applymode='calflag')
-
-class TrialMode(DataSetUp):
-    """
-    Benchmark runtime when in applymode trial
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_trial(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], applymode='trial')
-
 class ApplyModes(DataSetUp):
     """
     Benchmark runtime for different apply modes
@@ -176,26 +55,5 @@ class ApplyModes(DataSetUp):
     def setup(self):
         self.setup_basic()
 
-    def time_applycal_strict_mode(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], applymode='calflagstrict')
-
-    def time_applycal_flag_only_mode(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], applymode='flagonly')
-
     def time_applycal_cal_only_mode(self):
         applycal(vis=self.vis, gaintable=[self.gCal], applymode='calonly')
-
-    def time_applycal_flag_only_strict_mode(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], applymode='flagonlystrict')
-
-class FlagBackup(DataSetUp):
-    """
-    Benchmark runtime when using flagbackup
-    """
-
-    def setup(self):
-        self.setup_basic()
-
-    def time_applycal_flag_backup(self):
-        applycal(vis=self.vis, gaintable=[self.gCal], flagbackup=True)
-
