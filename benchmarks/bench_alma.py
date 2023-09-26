@@ -38,5 +38,5 @@ class BaseMosaic(BaseMosaicSetup):
     time_mosaic_cube_eph_pcwdT_restart.version = "CAS-14086"
     time_mosaic_cube_eph_pcwdT_restart.repeat = 3 # insist that this long test is run 3x
     time_mosaic_cube_eph_pcwdT_restart.rounds = 1
-    time_mosaic_cube_eph_pcwdT_restart.min_run_count = 1
+    time_mosaic_cube_eph_pcwdT_restart.min_run_count = 3
     time_mosaic_cube_eph_pcwdT_restart.timeout = 14400 # raise to 4hr hard cap since this is a long test
