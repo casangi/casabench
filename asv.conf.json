@@ -29,8 +29,8 @@
   "include": [
     {
       "python": "3.10",
-      "pip+casatasks": "6.6.4.13",
-      "pip+casatestutils": "6.6.4.13"
+      "pip+casatasks": "6.6.4.14",
+      "pip+casatestutils": "6.6.4.14"
     }
   ],
   "benchmark_dir": "benchmarks",
