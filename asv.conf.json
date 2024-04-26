@@ -18,7 +18,7 @@
   "show_commit_url": "https://open-bitbucket.nrao.edu/projects/CASA/repos/casa6/commits/",
   "install_timeout": 600,
   "pythons": [
-    "3.8"
+    "3.10"
   ],
   "exclude": [
     {
@@ -28,7 +28,7 @@
   ],
   "include": [
     {
-      "python": "3.8",
+      "python": "3.10",
       "pip+casatasks": "6.6.4.18",
       "pip+casatestutils": "6.6.4.18"
     }
