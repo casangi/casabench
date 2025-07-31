@@ -201,6 +201,6 @@ class Corrcomb():
         
     def time_comb_all(self):
         """test_comb --- last part of the corrcomb test, check that results are coombined"""
-        fringefit(vis=self.polcombtestms, caltable=self.testout, refant='0', spw='2~3', corrcomb='all')
-    time_comb_all.version = '14113'
+        fringefit(vis=self.polcombtestms, caltable=self.testout, refant='0', spw='2~3', corrcomb='stokes')
+    time_comb_all.version = '14195'
     
